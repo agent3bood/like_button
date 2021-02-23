@@ -162,6 +162,10 @@ class LikeButtonState extends State<LikeButton> with TickerProviderStateMixin {
       _initLikeCountControllerAnimation();
     }
 
+    if (_likeCount != oldWidget.likeCount) {
+      _handleIsLikeCountChanged(oldWidget.likeCount ?? 0, _likeCount ?? 0);
+    }
+
     super.didUpdateWidget(oldWidget);
   }
 
@@ -447,6 +451,17 @@ class LikeButtonState extends State<LikeButton> with TickerProviderStateMixin {
             _likeCountController.reset();
             _likeCountController.forward();
           }
+        });
+      }
+    }
+  }
+
+  void _handleIsLikeCountChanged(int oldLikeCount, int likeCount) {
+    if (likeCount != oldLikeCount) {
+      if (mounted) {
+        setState(() {
+          _controller.reset();
+          _controller.forward();
         });
       }
     }
